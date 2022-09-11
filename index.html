@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<input type="text" id="nhap">
+<button onclick="themHS()">Thêm học sinh</button>
+<input id="search" type="text" oninput="search()">
+<button onclick="search()">Search</button>
+<h1 id="ht"></h1>
+<table border="1" width="100%">
+    <tr>
+        <th>Stt</th>
+        <th>tên</th>
+    </tr>
+    <tbody id="veThanBang">
+    </tbody>
+</table>
+<script>
+    let danhSachHS = ["Thảozy", "Hàozym", "Khángkl", "Nghĩakl"];
+
+    function veBangHoanChinh() {
+        let veBang = "";
+        for (let i = 0; i < danhSachHS.length; i++) {
+            veBang += `<tr>
+            <td>${i + 1}</td>
+            <td>${danhSachHS[i]}</td>
+            <td><button onclick="sua(${i})">Sửa</button></td>
+            <td><button onclick="xoa(${i})">Xóa</button></td>
+            </tr>`
+        }
+        document.getElementById('veThanBang').innerHTML = veBang;
+    }
+
+    veBangHoanChinh()
+
+    function themHS() {
+        var hsMoi = document.getElementById('nhap').value;
+        if (hsMoi.trim() === "") {
+            document.getElementById('ht').innerHTML = "<h3 style='color: white;background-color: red'> " +
+                "Bạn đang quên ko nhập tên,vui lòng nhập  tên lại </h3>";
+            document.getElementById('nhap').innerHTML = "";
+        } else {
+            danhSachHS.push(hsMoi)
+            document.getElementById('ht').innerHTML = "<h3 style='color: white;background-color: blue'> " +
+                "Bạn đã thêm thành công</h3>";
+            document.getElementById('nhap').innerHTML = "";
+            veBangHoanChinh()
+        }
+    }
+
+    function sua(id) {
+        console.log('id ====== ', id)
+        let suaHS = prompt('hãy sửa tên ' + danhSachHS[id] + ' thành tên bạn muốn');
+
+        if (suaHS.trim() === "") {
+            document.getElementById('ht').innerHTML = "<h3 style='color: white;background-color: red'> " +
+                "Bạn đang quên ko nhập tên,vui lòng nhập  tên lại </h3>";
+        } else if (suaHS === danhSachHS[id]) {
+            document.getElementById('ht').innerHTML = "<h3 style='color: white;background-color: red'> " +
+                "bạn có thay đổi gì đâu ?,vui lòng đổi lại </h3>";
+        } else {
+            danhSachHS[id] = suaHS
+            document.getElementById('ht').innerHTML = "<h3 style='color: white;background-color: blue'> " +
+                "Bạn đã thêm thành công</h3>";
+            veBangHoanChinh()
+        }
+    }
+
+    function xoa(id) {
+
+        if (confirm('bạn đã chắc muốn xóa chưa nè')) {
+            danhSachHS.splice([id], 1)
+            document.getElementById('ht').innerHTML = "<h3 style='color: white;background-color: blue'> " +
+                "Bạn đã xóa tên thành công </h3>";
+            veBangHoanChinh()
+        } else {
+            document.getElementById('ht').innerHTML = "<h3 style='color: white;background-color: red'> " +
+                "vẫn giữ nguyên tên </h3>";
+
+        }
+    }
+
+    let danhSachHSSearch = [];
+    function search() {
+        danhSachHSSearch = [];
+        let search = document.getElementById('search').value;
+        //cach 1 tìm kiếm tuyệt đối
+        // if (search.trim() === ""){
+        //     veBangSearch()
+        //     return
+        // }else{
+        // for (let i = 0; i <danhSachHS.length ; i++) {
+        //     if (search.toUpperCase() === danhSachHS[i].toUpperCase())
+        //     danhSachHSSearch.push(danhSachHS[i])
+        // }
+        // veBangSearch()
+        //cach2 tìm kiếm tuong đối
+        if (search.trim() === '') {
+            veBangHoanChinh();
+            return
+        }else{
+            for (let i = 0; i < danhSachHS.length; i++) {
+                if (danhSachHS[i].toLowerCase().search(search.toLowerCase()) != -1) {
+                    danhSachHSSearch.push(danhSachHS[i])
+                }
+            }
+        }
+        veBangSearch()
+    }
+
+    function veBangSearch() {
+        let veBangSearch = "";
+        for (let i = 0; i < danhSachHSSearch.length; i++) {
+            veBangSearch += `<tr>
+            <td>${i + 1}</td>
+            <td>${danhSachHSSearch[i]}</td>
+            <td><button onclick="sua(${i})">Sửa</button></td>
+            <td><button onclick="xoa(${i})">Xóa</button></td>
+            </tr>`
+        }
+        document.getElementById('veThanBang').innerHTML = veBangSearch;
+    }
+
+</script>
+</body>
+</html>
